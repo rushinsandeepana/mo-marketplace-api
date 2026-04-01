@@ -51,7 +51,7 @@ export class AuthService {
       const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN', '7d');
       
       return {
-        access_token: accessToken,
+        accessToken: accessToken,
         expires_in: expiresIn,
         user: {
           id: user.id,

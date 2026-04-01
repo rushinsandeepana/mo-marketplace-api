@@ -1,5 +1,5 @@
 export interface LoginResponse {
-  access_token: string;
+  accessToken: string;
   expires_in: string;
   user: {
     id: number;
