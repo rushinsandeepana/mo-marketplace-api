@@ -12,29 +12,29 @@ import { ProductImage } from './product-image.entity';
 @Entity('products')
 export class Product {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ length: 255 })
-  name: string;
+  name!: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string | null;
+  description!: string | null;
 
   @Column({ type: 'numeric', precision: 12, scale: 2 })
-  basePrice: number;
+  basePrice!: number;
 
   @OneToMany(() => Variant, (v) => v.product, {
     cascade: true,
     eager: true,
   })
-  variants: Variant[];
+  variants!: Variant[];
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @OneToMany(() => ProductImage, image => image.product)
-  images: ProductImage[];
+  images!: ProductImage[];
 }

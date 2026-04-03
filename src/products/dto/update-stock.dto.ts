@@ -5,5 +5,5 @@ export class UpdateStockDto {
   @ApiProperty({ example: 5 })
   @IsInt()
   @Min(0)
-  stock: number;
+  stock!: number;
 }

@@ -31,7 +31,7 @@ export class CreateVariantDto {
   @ApiProperty({ example: 10 })
   @IsInt()
   @Min(0)
-  stock: number;
+  stock!: number;
 
   @ApiPropertyOptional({ example: 29.99 })
   @IsOptional()

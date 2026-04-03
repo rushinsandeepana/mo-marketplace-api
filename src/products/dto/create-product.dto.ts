@@ -17,7 +17,7 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  name: string;
+  name!: string;
 
   @ApiPropertyOptional({ example: 'Premium cotton tee' })
   @IsOptional()
@@ -27,11 +27,11 @@ export class CreateProductDto {
   @ApiProperty({ example: 19.99 })
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsPositive()
-  basePrice: number;
+  basePrice!: number;
 
   @ApiProperty({ type: [CreateVariantDto] })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateVariantDto)
-  variants: CreateVariantDto[];
+  variants!: CreateVariantDto[];
 }
