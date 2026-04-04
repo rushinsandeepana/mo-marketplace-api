@@ -29,7 +29,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { CreateVariantDto } from './dto/create-variant.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { ImageFileValidator } from 'src/common/validators/image-file.validator';
+import { ImageFileValidator } from '../common/validators/image-file.validator';
 
 @ApiTags('Products')
 @Controller('products')
