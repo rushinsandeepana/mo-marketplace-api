@@ -22,7 +22,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
-import { ApiTags, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiConsumes, ApiBody, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -38,7 +38,11 @@ export class ProductsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a product with variants' })
+  @ApiResponse({ status: 201, description: 'Product created successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -103,19 +107,28 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all products' })
+  @ApiResponse({ status: 200, description: 'List of all products returned successfully' })
   findAll() {
     return this.productsService.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get one product by ID' })
+  @ApiParam({ name: 'id', description: 'Product UUID', example: '123e4567-e89b-12d3-a456-426614174000' })
+  @ApiResponse({ status: 200, description: 'Product found' })
+  @ApiResponse({ status: 404, description: 'Product not found' })
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.findOne(id);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update product' })
+  @ApiParam({ name: 'id', description: 'Product UUID' })
+  @ApiResponse({ status: 200, description: 'Product updated successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Product not found' })
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateProductDto,
@@ -126,13 +139,21 @@ export class ProductsController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete product and all its variants' })
+  @ApiParam({ name: 'id', description: 'Product UUID' })
+  @ApiResponse({ status: 200, description: 'Product deleted successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Product not found' })
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.remove(id);
   }
 
   @Post(':id/variants')
   @ApiOperation({ summary: 'Add a variant to existing product' })
+  @ApiParam({ name: 'id', description: 'Product UUID' })
+  @ApiResponse({ status: 201, description: 'Variant added successfully' })
+  @ApiResponse({ status: 404, description: 'Product not found' })
   addVariant(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: CreateVariantDto,
@@ -142,6 +163,9 @@ export class ProductsController {
 
   @Patch(':id/variants/:variantId/stock')
   @ApiOperation({ summary: 'Update stock for a variant' })
+  @ApiParam({ name: 'variantId', description: 'Variant UUID' })
+  @ApiResponse({ status: 200, description: 'Stock updated successfully' })
+  @ApiResponse({ status: 404, description: 'Variant not found' })
   updateStock(
     @Param('variantId', ParseUUIDPipe) variantId: string,
     @Body() dto: UpdateStockDto,
@@ -152,6 +176,9 @@ export class ProductsController {
   @Delete(':id/variants/:variantId')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Delete a single variant' })
+  @ApiParam({ name: 'variantId', description: 'Variant UUID' })
+  @ApiResponse({ status: 200, description: 'Variant deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Variant not found' })
   removeVariant(@Param('variantId', ParseUUIDPipe) variantId: string) {
     return this.productsService.removeVariant(variantId);
   }

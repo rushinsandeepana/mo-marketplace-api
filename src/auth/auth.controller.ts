@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { LoginResponse, UserResponse } from './types/auth-response.types';
 
 @ApiTags('auth')
@@ -20,7 +20,8 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'User login' })
-  @ApiResponse({ status: 200, description: 'Login successful' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ status: 200, description: 'Login successful', type: Object })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
     const user = await this.authService.validateUser(
@@ -35,8 +36,9 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ summary: 'User registration' })
-  @ApiResponse({ status: 201, description: 'Registration successful' })
-  @ApiResponse({ status: 401, description: 'Email already exists' })
+  @ApiBody({ type: CreateAuthDto })
+  @ApiResponse({ status: 201, description: 'Registration successful', type: Object })
+  @ApiResponse({ status: 400, description: 'Email already exists or invalid data' })
   async register(@Body() createAuthDto: CreateAuthDto): Promise<UserResponse> {
     return this.authService.register(createAuthDto);
   }

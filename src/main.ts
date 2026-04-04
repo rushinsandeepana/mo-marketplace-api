@@ -24,18 +24,33 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('MO Marketplace API')
-    .setDescription('Products and Variants CRUD')
+    .setDescription(`
+      Products and Variants CRUD API for MO Marketplace
+
+      ## Features
+      - Product management with variants
+      - Stock tracking
+      - Order processing
+      - User authentication
+
+      ## Base URL
+      - Local: http://localhost:3000
+      - Production: Your Railway URL
+    `)
     .setVersion('1.0')
+    .addTag('products', 'Product CRUD operations')
+    .addTag('variants', 'Product variant management')
+    .addTag('orders', 'Order management')
+    .addTag('auth', 'Authentication endpoints')
+    .addBearerAuth()
     .build();
 
-  SwaggerModule.setup(
-    'api',
-    app,
-    SwaggerModule.createDocument(app, swaggerConfig),
-  );
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
   console.log('API     → http://localhost:3000');
-  console.log('Swagger → http://localhost:3000/api');
+  console.log('Swagger → http://localhost:3000/api/docs');
 }
 bootstrap();
