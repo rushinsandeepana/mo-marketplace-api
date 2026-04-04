@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { VariantsModule } from './variants/variants.module';
-import { AuthModule } from './auth/auth.module';  // ← ADD THIS LINE
+import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './orders/orders.module';
 
 @Module({
@@ -21,7 +21,7 @@ import { OrdersModule } from './orders/orders.module';
             type: 'postgres' as const,
             url: process.env.DATABASE_URL,
             autoLoadEntities: true,
-            synchronize: false,
+            synchronize: true,
             ssl: {
               rejectUnauthorized: false,
             },
