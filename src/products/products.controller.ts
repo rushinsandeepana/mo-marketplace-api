@@ -87,8 +87,17 @@ export class ProductsController {
       description: body.description,
       basePrice: parseFloat(body.basePrice),
       variants: JSON.parse(body.variants),
+      images: [],
     };
-        
+
+    const backendUrl = process.env.BACKEND_URL;
+
+    if (files && files.length > 0) {
+      createProductDto.images = files.map(
+        (file) => `${backendUrl}/uploads/products/${file.filename}`,
+      );
+    }
+
     return this.productsService.create(createProductDto, files);
   }
 
