@@ -305,3 +305,14 @@ npm run start:dev
 - `combination_key` auto generated from color + size + material
 - Example: `red-M-cotton`
 - No role based access — any authenticated user can access all endpoints
+
+---
+
+## Deployment
+
+| Service | URL |
+|--------|-----|
+| API Base URL | https://mo-marketplace-api-production-e752.up.railway.app |
+| Swagger Docs | https://mo-marketplace-api-production-e752.up.railway.app/api/docs |
+
+---
