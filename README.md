@@ -31,17 +31,19 @@ NestJS backend for MO Marketplace — product management with variants and JWT a
 
 ## Project Structure
 
+```bash
 mo-marketplace-api/
-└── src/
-├── auth/              # JWT auth module
-├── products/          # Products + variants CRUD
-├── variants/          # combination_key logic
-├── common/            # Filters, pipes, guards
-├── config/            # DB + JWT config
-└── main.ts
-├── docker-compose.yml
-├── .env.example
-└── README.md
+├── src/
+│   ├── auth/            # JWT authentication module
+│   ├── products/        # Products and variants CRUD
+│   ├── variants/        # combination_key logic
+│   ├── common/          # Filters, pipes, guards
+│   ├── config/          # Database and JWT configuration
+│   └── main.ts          # Application entry point
+│
+├── docker-compose.yml   # Docker configuration
+├── .env.example         # Environment variables template
+└── README.md            # Project documentation
 ---
 
 ## Setup — Step by Step
